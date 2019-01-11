@@ -1,0 +1,13 @@
+
+<div>
+<form action="/login/" class="form-inline" method="post">
+    {{ login_form.username(class="form-control", placeholder = "Username") }}
+    {{ login_form.password(class="form-control", placeholder = "Password") }}
+    <input class="btn btn-primary" type="submit" value="Login">
+</form>
+</div>
+<div class="container">
+    <br>
+    <p>No account? <a href='/register/'>Register here</a>.</p> 
+    <br>
+</div>

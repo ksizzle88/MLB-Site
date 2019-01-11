@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Welcome to my website!</title>
+</head>
+<body>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"
+          rel="stylesheet">
+
+     <script type=text/javascript>
+    $(function() {
+      $('a#retrieve').bind('click', function() {
+        $.getJSON('/_get_player_data', {
+          player: $('input[name="name"]').val()
+        }, function(data) {
+          $("#result").html(data.result);
+        });
+        return false;
+      });
+    });
+  </script>
+
+<div style="width:800px; margin:0 auto;">
+	<p>
+	<br>
+	<br>
+	First off, let me apologize for the bland look of the website, I diving into the data far more interesting than tinkering with the front end. Perhaps one day I will prioritize it though.
+	<br>
+	<br>
+	   Please select a Player to display the pitches he did not swing at during the 2016 season.
+	<br>
+	<br>
+	   red markes were called strikes, blue marks are called balls, the rectangle is the strikezone as defined by the rulebook.
+	<br>
+	<br>
+		A SVM was used to define the area in which a pitch is most likely a strike vs a ball. this defacto strikezone is outlined in cyan.
+	<br>
+	<br>
+	   you can search for a player in the box below, or just arrow down to pick one.	
+
+	   If you would like to know more details about how this website was made, click <a href="/details"> here </a>.
+	   </p>
+
+
+
+	<input list="players" name="name">
+	<datalist id="players">
+		{% for player in players%}
+			<option value = "{{player.first_name + ' ' + player.last_name}}">
+		{%endfor%}
+	</datalist>
+
+	</input>
+	<p><a href="javascript:void();" id="retrieve">get chart</a></p>
+	<span id= "result">?</span>
+
+	</div>
+</body>
+</html>

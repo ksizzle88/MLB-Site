@@ -1,0 +1,28 @@
+{% block body %}
+
+<div class="container">
+
+    {% from "partials/_formhelpers.html" import render_reg_field %}
+
+    <form method=post action="/register/">
+
+    {{ reg_form.csrf_token }}
+
+        <dl>
+            {{render_reg_field(reg_form.username)}}
+            {{render_reg_field(reg_form.email)}}
+            {{render_reg_field(reg_form.password)}}
+            {{render_reg_field(reg_form.confirm)}}
+            {{render_reg_field(reg_form.accept_tos)}}
+        </dl>
+
+        <p><input type=submit value=Register></p>
+
+    </form>
+</div>
+
+{% if reg_form.errors %}
+			<p class="error"><strong>Error:</strong>{{error}}</p>
+
+{% endif %}
+{% endblock %}

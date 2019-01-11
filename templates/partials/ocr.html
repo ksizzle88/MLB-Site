@@ -1,0 +1,25 @@
+{# <link rel="stylesheet" type="text/css" href="canvas.css"/>
+<script src = 'canvas select.js'></script>#}
+<body>
+<div id = "container" class = "container">
+  <div id="canvas_container" style="position: relative;">
+	 <canvas id="layer1" width="425" height="550" ></canvas>
+	 {# <canvas id="my_canvas" width="425" height="550" class="active_field_canv" ></canvas> #}
+
+</div>
+  <h2 id = "status"> stuff </h2>
+
+</div>
+
+<img id ='image' src="{{ url_for('static', filename = 'images/test Invoice.png') }}">
+
+<input type = 'button' onclick = 'crop()' value = "crop crop crop">
+
+<input type = 'button' id="testytesttest" value = "testytesttest">
+
+<input type = 'button' onclick = 'activate_my_canvas()' value = "activate_canvas">
+
+<script src='https://cdn.rawgit.com/naptha/tesseract.js/1.0.10/dist/tesseract.js'></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/canvas select.js')}}"></script>
+
+
