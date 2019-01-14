@@ -43,7 +43,6 @@ db = SQLAlchemy(app)
 
 @app.route('/', methods= ['GET','POST'])
 def homepage():
-    from mlb_db_models import *
     from sqlalchemy.orm import sessionmaker, scoped_session
 
     engine = create_engine("mysql://keith:goodhand@localhost/mlb_data")
@@ -226,6 +225,10 @@ def get_player_data():
 @app.route('/drop/')
 def drop():
     return render("dropzone.html")
+
+@app.route("/test/")
+def test():
+    return "yes it's page dependant"
 
 if __name__ == "__main__":
     app.run()
