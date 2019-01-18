@@ -7,7 +7,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
 
-engine = create_engine("mysql://keith:goodhand@localhost/mlb_data")
+engine = create_engine("mysql+pymysql://keith:goodhand@localhost/mlb_data")
 db = engine.connect()
 Base = declarative_base()
 

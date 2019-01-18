@@ -1,4 +1,11 @@
+
+
 from flask import Flask, render_template, flash, request, redirect, url_for, session, jsonify
+import sys
+sys.path.insert(0,"/var/www/FlaskApp/FlaskApp")
+
+
+
 from helpers.ContentManagement import Content
 from helpers.login import login, LoginForm
 from helpers.register_form import RegistrationForm
@@ -12,14 +19,11 @@ from matplotlib import pylab as plt
 from matplotlib import patches
 from sklearn import svm
 import numpy as np
-
 import pandas
 import mpld3
 import base64
 import io
 
-
-import sys
 
 def render(url_path, **kwargs):
     stuff = {"reg_form": RegistrationForm(request.form),
@@ -37,7 +41,7 @@ app.secret_key = "kschepis"
 app.debug = True
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://keith:goodhand@localhost/pythonprogramming'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://keith:goodhand@localhost/pythonprogramming'
 db = SQLAlchemy(app)
 
 
@@ -45,7 +49,7 @@ db = SQLAlchemy(app)
 def homepage():
     from sqlalchemy.orm import sessionmaker, scoped_session
 
-    engine = create_engine("mysql://keith:goodhand@localhost/mlb_data")
+    engine = create_engine("mysql+pymysql://keith:goodhand@localhost/mlb_data")
     # db = engine.connect()
     session = scoped_session(sessionmaker(engine, autoflush=False))
     players = session.query(Player).all()
@@ -136,7 +140,7 @@ def save_data():
 
 @app.route('/_get_player_data')
 def get_player_data():
-    engine = create_engine("mysql://keith:goodhand@localhost/mlb_data")
+    engine = create_engine("mysql+pymysql://keith:goodhand@localhost/mlb_data")
     # db = engine.connect()
     session = scoped_session(sessionmaker(engine, autoflush=False))
 
