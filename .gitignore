@@ -1,0 +1,4 @@
+
+*.pyc
+*.pyo
+configs/fontlist-v330.json

@@ -1,9 +1,11 @@
 
-
+print(0)
 from flask import Flask, render_template, flash, request, redirect, url_for, session, jsonify
 import sys
 sys.path.insert(0,"/var/www/FlaskApp/FlaskApp")
 
+import os
+os.environ['MPLCONFIGDIR'] = '/var/www/FlaskApp/FlaskApp/configs/'
 
 
 from helpers.ContentManagement import Content
@@ -17,13 +19,13 @@ import  matplotlib
 matplotlib.use("agg")
 from matplotlib import pylab as plt
 from matplotlib import patches
-from sklearn import svm
 import numpy as np
 import pandas
 import mpld3
 import base64
 import io
-
+import os
+import traceback
 
 def render(url_path, **kwargs):
     stuff = {"reg_form": RegistrationForm(request.form),
@@ -140,6 +142,7 @@ def save_data():
 
 @app.route('/_get_player_data')
 def get_player_data():
+    print("connecting to database")
     engine = create_engine("mysql+pymysql://keith:goodhand@localhost/mlb_data")
     # db = engine.connect()
     session = scoped_session(sessionmaker(engine, autoflush=False))
@@ -157,12 +160,12 @@ def get_player_data():
         query = session.query(Pitch).filter(Pitch.at_bat.in_(ab_list))
         df = pandas.read_sql(query.statement, query.session.bind)
 
-        strikes = df[(df.des == "Called Strike")]
-        balls = df[(df.des == 'Ball') | (df.des == "Intent Ball")]
-        strikes.px.dropna(inplace=True)
-        strikes.pz.dropna(inplace=True)
-        balls.pz.dropna(inplace=True)
-        balls.px.dropna(inplace=True)
+        strikes = df[(df.des == "Called Strike")].copy()
+        balls = df[(df.des == 'Ball') | (df.des == "Intent Ball")].copy()
+
+        strikes.dropna(subset=['pz', 'px'],inplace=True)
+        balls.dropna(subset=['pz', 'px'],inplace=True)
+
         xs = strikes.px
         ys = strikes.pz
         xb = balls.px
@@ -176,6 +179,7 @@ def get_player_data():
         import matplotlib.pyplot as plt
         import matplotlib.patches as patches
 
+
         coords = []
         call = []
         for i in zip(xs, ys):
@@ -185,7 +189,11 @@ def get_player_data():
             coords.append(list(i))
             call.append(0)
 
+        from sklearn.svm import SVC
+        print(1)
+        from sklearn import svm
         classifier = svm.SVC()
+        print(coords)
         classifier.fit(coords, call)
         ncoords = np.array(coords)
         x_min, x_max = min(ncoords[:, 0]) - 1, max(ncoords[:, 0]) + 1
@@ -199,8 +207,6 @@ def get_player_data():
         fig = plt.figure()
         ax1 = fig.add_subplot(111, aspect='equal')
         ax1.add_patch(patches.Rectangle(bl, w, h, fill=False))
-        # plt.scatter(xb,yb, s = 1, marker=u'x',c='blue')
-        # plt.scatter(xs,ys, s = 1, marker=u'o',c='red')
 
         ax1.contour(xx, yy, Z, 1, colors="c", linewidths=2)
         ax1.scatter(xb, yb, s=1, marker=u'x', c='blue')
@@ -213,18 +219,11 @@ def get_player_data():
         f.close()
 
         return (encoded_img)
+  
     plot = get_plot(p.id)
     plot = '<img src="data:image/png;base64,%s" />' % plot
 
-
-
-
-
     return jsonify(result=plot)
-
-
-
-
 
 @app.route('/drop/')
 def drop():
