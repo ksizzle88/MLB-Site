@@ -142,7 +142,6 @@ def save_data():
 
 @app.route('/_get_player_data')
 def get_player_data():
-    print("connecting to database")
     engine = create_engine("mysql+pymysql://keith:goodhand@localhost/mlb_data")
     # db = engine.connect()
     session = scoped_session(sessionmaker(engine, autoflush=False))
@@ -190,10 +189,8 @@ def get_player_data():
             call.append(0)
 
         from sklearn.svm import SVC
-        print(1)
         from sklearn import svm
         classifier = svm.SVC()
-        print(coords)
         classifier.fit(coords, call)
         ncoords = np.array(coords)
         x_min, x_max = min(ncoords[:, 0]) - 1, max(ncoords[:, 0]) + 1
@@ -211,7 +208,7 @@ def get_player_data():
         ax1.contour(xx, yy, Z, 1, colors="c", linewidths=2)
         ax1.scatter(xb, yb, s=1, marker=u'x', c='blue')
         ax1.scatter(xs, ys, s=1, marker=u'o', c='red')
-        ax1.add_patch(patches.Rectangle(bl, w, h, fill=False))
+        # ax1.add_patch(patches.Rectangle(bl, w, h, fill=False))
 
         f = io.BytesIO()
         plt.savefig(f, format="png", facecolor=(0.95, 0.95, 0.95))

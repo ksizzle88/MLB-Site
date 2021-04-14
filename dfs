@@ -1,0 +1,32 @@
+[1mdiff --git a/__init__.py b/__init__.py[m
+[1mindex a073159..7e4fb7e 100644[m
+[1m--- a/__init__.py[m
+[1m+++ b/__init__.py[m
+[36m@@ -142,7 +142,6 @@[m [mdef save_data():[m
+ [m
+ @app.route('/_get_player_data')[m
+ def get_player_data():[m
+[31m-    print("connecting to database")[m
+     engine = create_engine("mysql+pymysql://keith:goodhand@localhost/mlb_data")[m
+     # db = engine.connect()[m
+     session = scoped_session(sessionmaker(engine, autoflush=False))[m
+[36m@@ -190,10 +189,8 @@[m [mdef get_player_data():[m
+             call.append(0)[m
+ [m
+         from sklearn.svm import SVC[m
+[31m-        print(1)[m
+         from sklearn import svm[m
+         classifier = svm.SVC()[m
+[31m-        print(coords)[m
+         classifier.fit(coords, call)[m
+         ncoords = np.array(coords)[m
+         x_min, x_max = min(ncoords[:, 0]) - 1, max(ncoords[:, 0]) + 1[m
+[36m@@ -211,7 +208,7 @@[m [mdef get_player_data():[m
+         ax1.contour(xx, yy, Z, 1, colors="c", linewidths=2)[m
+         ax1.scatter(xb, yb, s=1, marker=u'x', c='blue')[m
+         ax1.scatter(xs, ys, s=1, marker=u'o', c='red')[m
+[31m-        ax1.add_patch(patches.Rectangle(bl, w, h, fill=False))[m
+[32m+[m[32m        # ax1.add_patch(patches.Rectangle(bl, w, h, fill=False))[m
+ [m
+         f = io.BytesIO()[m
+         plt.savefig(f, format="png", facecolor=(0.95, 0.95, 0.95))[m
