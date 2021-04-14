@@ -216,7 +216,7 @@ def get_player_data():
         f.close()
 
         return (encoded_img)
-  
+    print("Running Request for david Ortiz")
     plot = get_plot(p.id)
     plot = '<img src="data:image/png;base64,%s" />' % plot
 

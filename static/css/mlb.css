@@ -1,0 +1,17 @@
+#main {
+      background-image: url(https://images.saymedia-content.com/.image/c_limit%2Ccs_srgb%2Cq_auto:good%2Cw_700/MTc0NDc1NTA2MDQ4MjQ3MTQ0/what-are-the-dimensions-of-a-baseball-field.webp);
+      background-color: FFFFFF;
+      background-repeat: no-repeat;
+      position: relative;
+      width: 50%px;
+      margin: 0 auto;
+      height: 600px;
+      background-size:cover
+    }
+
+.child { margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+      border: 3px solid green;
+      padding: 10px;}
+}
